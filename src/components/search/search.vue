@@ -1,0 +1,19 @@
+<template>
+  <div class="search">
+    搜索
+  </div>
+</template>
+
+<script type="text/ecmascript-6">
+export default {
+  name: 'search',
+  data () {
+    return {
+
+    }
+  }
+}
+</script>
+
+<style lang="stylus" rel="stylesheet/stylus" scoped>
+</style>
