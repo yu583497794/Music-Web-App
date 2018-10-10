@@ -37,6 +37,7 @@ export default {
   },
   // DOM 已渲染 与recommends获取是异步的
   mounted () {
+    // console.log('mounted')
     // refs的坑 - 简书 https://www.jianshu.com/p/bd39302f2492
     // 浏览器的刷新通常是17毫秒一次，所以这里用了20毫秒
     let length = this.$refs.slideGroup.children.length
@@ -64,15 +65,18 @@ export default {
       }
       this._setSlideWidth(true)
       this.slide.refresh()
+      if (this.autoPlay) {
+        this._play()
+      }
     })
   },
   methods: {
     _setSlideWidth (isResize) {
       this.children = this.$refs.slideGroup.children
-      console.log(this.children)
+      // console.log(this.children)
       let width = 0
       let slideWidth = this.$refs.slide.clientWidth
-      console.log(this.children.length)
+      // console.log(this.children.length)
       for (let i = 0; i < this.children.length; i++) {
         let child = this.children[i]
         // 添加样式
@@ -105,9 +109,9 @@ export default {
         click: true
       })
       this.slide.on('scrollEnd', () => {
-        console.log('-----scrollEnd-----')
+        // console.log('-----scrollEnd-----')
         let pageIndex = this.slide.getCurrentPage().pageX
-        console.log('pageIndex = CurrentPage', pageIndex)
+        // console.log('pageIndex = CurrentPage', pageIndex)
         // if (this.loop) {
         //   console.log('loop pageIndex', pageIndex - 1)
         //   pageIndex--
@@ -124,6 +128,7 @@ export default {
         }
       })
       this.slide.on('touchEnd', () => {
+        console.log('touchEnd')
         if (this.autoPlay) {
           this._play()
         }
@@ -134,7 +139,7 @@ export default {
     },
     _play() {
       // this.currentPageIndex = this.slide.getCurrentPage().pageX
-      console.log('-----play-----')
+      // console.log('-----play-----')
       clearTimeout(this.timer)
       // console.log('pageIndex = currentPageIndex+1', this.currentPageIndex + 1)
       // let pageIndex = this.currentPageIndex + 1
@@ -150,6 +155,9 @@ export default {
         this.slide.next()
       }, this.interval)
     }
+  },
+  destroyed () {
+    clearTimeout(this.timer)
   }
 }
 </script>
