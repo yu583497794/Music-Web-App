@@ -57,7 +57,7 @@ export default {
   },
   created () {
     this._getRecommend()
-    // this._getDiscList()
+    this._getDiscList()
   },
   methods: {
     _getRecommend () {
@@ -68,13 +68,16 @@ export default {
         }
       })
     },
-    // _getDiscList () {
-    //   getDiscList().then((res) => {
-    //     if (res.code === ERR_OK) {
-    //       console.log(res)
-    //     }
-    //   })
-    // }
+    _getDiscList () {
+      getDiscList().then((res) => {
+        // "msg":"please login" 尚不能请求到针对特定用户的推荐页
+        console.log('getDiscListcl')
+        console.log(res)
+        if (res.code === ERR_OK) {
+          console.log(res)
+        }
+      })
+    },
     // 哪怕slider后渲染出来 也会正确滚动
     loadImg () {
       // 标志位确保只一次

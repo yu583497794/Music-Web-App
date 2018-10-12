@@ -1,5 +1,6 @@
 <template>
   <div class="tab">
+    <!-- router-link点击跳转到相应的路径，歌手页是点击后触发this.$router.push({path: `/singer/${singer.id}`}) -->
     <router-link tag="div" class="tab-item" to="/recommend">
       <span class="tab-link">推荐</span>
     </router-link>
