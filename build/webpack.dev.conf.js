@@ -16,7 +16,7 @@ const express = require('express')
 var axios = require('axios')
 const app = express()
 var apiRoutes = express.Router()
-app.use('./api', apiRoutes)
+app.use('/api', apiRoutes)
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({ sourceMap: config.dev.cssSourceMap, usePostCSS: true })
@@ -47,7 +47,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     watchOptions: {
       poll: config.dev.poll
     },
-    before (app) {
+    before(app) {
       app.get('/api/getDiscList', function (req, res) {
         // console.log(req.query)
         var url = 'https://c.y.qq.com/splcloud/fcgi-bin/fcg_get_diss_by_tag.fcg'

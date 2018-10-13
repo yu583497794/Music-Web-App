@@ -12,6 +12,8 @@ import {ERR_OK} from 'api/config'
 import Singer from 'common/js/singer'
 import Pinyin from 'common/js/ChinesePY'
 import ListView from 'base/listview/listview'
+import {mapMutations} from 'vuex'
+
 const HOT_NAME = '热门'
 const HOT_SINGER_LEN = 10
 export default {
@@ -39,6 +41,7 @@ export default {
         }
       })
     },
+    // 此时的list是根据歌手的热度排序的，不符合名字首字母排序
     _normalizeSinger (list) {
       // console.log(list)
       let map = {
@@ -92,7 +95,14 @@ export default {
       this.$router.push({
         path: `/singer/${singer.id}`
       })
-    }
+      this.setSinger(singer)
+    },
+    // 当一个组件需要获取多个状态时候，使用mapState辅助函数，其返回一个对象
+    // 使用对象展开运算符...将此对象混入到外部对象中
+    // // 将 `this.setSinger()` 映射为 `this.$store.commit('setSinger')`
+    ...mapMutations({
+      setSinger: 'SET_SINGER'
+    })
   }
 }
 </script>

@@ -167,7 +167,7 @@ export default {
       let fixedTop = (newVal > 0 && newVal < TITLE_HEIGHT) ? TITLE_HEIGHT - newVal : 0
       // 减少DOM操作
       if (this.fixedTop === fixedTop) {
-        console.log('nothing')
+        // console.log('nothing')
         return
       }
       this.fixedTop = fixedTop

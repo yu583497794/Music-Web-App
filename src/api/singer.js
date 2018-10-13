@@ -22,15 +22,35 @@ export function getSingerList() {
     }
   }
   const data = Object.assign({}, commonParams, {
-    callback: '?',
+    // callback: '?',
     g_tk: 450503,
-    jsonpCallback: '?',
+    // jsonpCallback: '?',
     hostUin: 0,
     platform: 'yqq',
     needNewCode: 0,
     data: encodeURIComponent(JSON.stringify(obj))
   })
-  // 已经在data中传入callback,若在传入options,则jsonp会再附加一个jsonpCallback
-  return jsonp(url, data)
-  // return jsonp(url, data, options)
+  // 已经在data中传入callback,若在传入options,则jsonp会再附加一个jsonpCallback???错误的想法!!!
+  // return jsonp(url, data)
+  return jsonp(url, data, {
+    param: 'callback'
+  })
+}
+
+export function getSingerDetail(id) {
+  const url = 'https://c.y.qq.com/v8/fcg-bin/fcg_v8_singer_track_cp.fcg'
+  var data = Object.assign({}, commonParams, {
+    // jsonpCallBack: 'MusicJsonCallbacksinger_track',
+    // callBack: 'MusicJsonCallbacksinger_track',
+    loginUin: 583497794,
+    hostUin: 0,
+    platform: 'yqq',
+    needNewCode: 0,
+    singermid: id,
+    order: 'listen',
+    begin: 0,
+    num: 100,
+    songstatus: 1
+  })
+  return jsonp(url, data, options)
 }
