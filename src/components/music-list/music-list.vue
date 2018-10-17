@@ -16,9 +16,19 @@
     </div>
     <div class="bg-layer" ref="layer"></div>
     <!-- 传入data可以及时的更新scroll，watch data -->
-    <scroll :data="songs" class="list" ref="list" :probe-type="probeType" :listen-scroll="listenScroll" @scroll="scroll">
+    <scroll
+    :data="songs"
+    class="list"
+    ref="list"
+    :probe-type="probeType"
+    :listen-scroll="listenScroll"
+    @scroll="scroll"
+    >
       <div class="song-list-wrapper">
         <song-list :songs="songs"></song-list>
+      </div>
+      <div class="load-wrapper" v-show="!songs.length">
+        <loading class="loading"></loading>
       </div>
     </scroll>
   </div>
@@ -27,6 +37,7 @@
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll'
 import SongList from 'base/song-list/song-list'
+import Loading from 'base/loading/loading'
 import {prefixStyle} from 'common/js/dom'
 const RESERVED_HIGHT = 40
 const transform = prefixStyle('transform')
@@ -54,7 +65,8 @@ export default {
   },
   components: {
     Scroll,
-    SongList
+    SongList,
+    Loading
   },
   computed: {
     bgStyle () {
@@ -80,16 +92,18 @@ export default {
   },
   watch: {
     scrollY (newY) {
+      // eslint-disable-next-line
       let translateY = Math.max(this.minTranslateY, newY)
       let zIndex = 0
       let scale = 1
       let blur = 0
-      console.log(transform)
-      console.log(backdrop)
-      this.$refs.layer.style['transform'] = `translate3d(0,${translateY}px, 0)`
-      this.$refs.layer.style['webkit-transform'] = `translate3d(0,${translateY}px, 0)`
-      // this.$refs.layer.style[transform] = `translate3d(0,${translateY}px, 0)`
-      console.log(this.$refs.layer.style[transform])
+      // console.log(transform)
+      // console.log(backdrop)
+      // this.$refs.layer.style['transform'] = `translate3d(0,${translateY}px, 0)`
+      // this.$refs.layer.style['webkit-transform'] = `translate3d(0,${translateY}px, 0)`
+      this.$refs.layer.style[transform] = `translate3d(0, ${translateY}px, 0)`
+      // console.log(this.$refs.layer.style['transform'])
+      // console.log(this.$refs.layer.style['webkit-transform'])
       const percent = Math.abs(newY / this.imageHeight)
       if (newY > 0) {
         scale = 1 + percent
@@ -97,9 +111,9 @@ export default {
       } else {
         blur = Math.min(20 * percent, 20)
       }
-      this.$refs.filter.style['backdrop-filter'] = `blur(${blur}px)`
-      this.$refs.filter.style['webkit-backdrop-filter'] = `blur(${blur}px)`
-      // this.$refs.filter.style[backdrop] = `blur(${blur}px)`
+      // this.$refs.filter.style['backdrop-filter'] = `blur(${blur}px)`
+      // this.$refs.filter.style['webkit-backdrop-filter'] = `blur(${blur}px)`
+      this.$refs.filter.style[backdrop] = `blur(${blur}px)`
       // 控制图片z-index，置于歌单之上
       if (newY < this.minTranslateY) {
         zIndex = 10
@@ -112,9 +126,11 @@ export default {
         this.$refs.playBtn.style.display = ''
       }
       this.$refs.bgImage.style.zIndex = zIndex
-      this.$refs.bgImage.style['transform'] = `scale(${scale})`
-      this.$refs.bgImage.style['webkit-transform'] = `scale(${scale})`
-      // this.$refs.layer.style[transform] = `scale(${scale})`
+      // this.$refs.bgImage.style['transform'] = `scale(${scale})`
+      // this.$refs.bgImage.style['webkit-transform'] = `scale(${scale})`
+      this.$refs.bgImage.style[transform] = `scale(${scale})`
+      // console.log(this.$refs.bgImage.style['transform'])
+      // console.log(this.$refs.bgImage.style['webkit-transform'])
     }
   }
 }
@@ -208,4 +224,15 @@ export default {
       .song-list-wrapper
         position absolute
         width 100%
+      .load-wrapper
+        position absolute
+        width 100%
+        height 100%
+        top 0
+        left 0
+        background $color-background
+        .loading
+          position relative
+          top 50%
+          transform translate3d(0, -50%, 0)
 </style>

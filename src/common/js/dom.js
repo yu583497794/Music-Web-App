@@ -28,11 +28,11 @@ let elementStyle = document.createElement('div').style
 
 let vendor = (() => {
   let transformNames = {
+    standard: 'transform',
     webkit: 'webkitTransform',
     Moz: 'MozTransform',
     O: 'OTransform',
-    ms: 'msTransform',
-    standard: 'transform'
+    ms: 'msTransform'
   }
   for (let key in transformNames) {
     if (elementStyle[transformNames[key]] !== undefined) {
@@ -50,5 +50,5 @@ export function prefixStyle(style) {
     return style
   }
   // return vendor + style.charAt(0).toUpperCase() + style.substr(1)
-  return `${vendor}-${style}`
+  return vendor + style.charAt(0).toUpperCase() + style.substr(1)
 }
