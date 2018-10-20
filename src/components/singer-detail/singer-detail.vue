@@ -10,8 +10,10 @@
 import {mapGetters} from 'vuex'
 import {getSingerDetail} from 'api/singer'
 import {ERR_OK} from 'api/config'
+// eslint-disable-next-line
 import {createSong} from 'common/js/song'
 import MusicList from 'components/music-list/music-list'
+import {getMusic} from 'api/music'
 export default {
   name: 'singer-detail',
   data () {
@@ -49,12 +51,28 @@ export default {
         }
       })
     },
+    getPlaySongVkey(res) {
+      let reg = /\((\{.*\})\)/
+      let obj = JSON.parse(reg.exec(res.data)[1])
+      const {req_0: {data: {midurlinfo: [{purl}]}}} = obj
+      return purl
+    },
     _normalizeSongs (list) {
       let ret = []
+      let _this = this
       list.forEach(item => {
         let {musicData} = item
         if (musicData.songid && musicData.albumid) {
-          ret.push(createSong(musicData))
+          getMusic(musicData.songmid).then((res) => {
+            //  console.log('getMusic then ')
+            if (res) {
+              //  console.log('>>>')
+              // const svkey = res.data.items
+              const purl = _this.getPlaySongVkey(res)
+              const newSong = createSong(musicData, purl)
+              ret.push(newSong)
+            }
+          })
         }
       })
       return ret

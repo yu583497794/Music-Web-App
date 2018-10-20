@@ -73,6 +73,25 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(e)
         })
       })
+      app.get('/api/getMusic', function (req, res) {
+        //  console.log(req.query)
+        // var url = 'https://c.y.qq.com/base/fcgi-bin/fcg_music_express_mobile3.fcg'
+        var url = 'https://u.y.qq.com/cgi-bin/musicu.fcg'
+        axios.get(url, {
+          headers: {
+            // referer: 'https://c.y.qq.com/',
+            referer: 'https://y.qq.com/portal/player.html',
+            // host: 'c.y.qq.com'
+            host: 'u.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          console.log(response.data)
+          res.json(response.data)
+        }).catch((e) => {
+          console.log(e)
+        })
+      })
     }
   },
   plugins: [

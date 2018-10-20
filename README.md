@@ -5,6 +5,7 @@
 >参考
 - [qq music api ](https://blog.csdn.net/weixin_41735943/article/details/82469069)
 - [qq music api 2018 ](https://blog.csdn.net/xiayiye5/article/details/79487560)
+- [song api](https://gitee.com/yangleilangyan/codes/lfpev3h0ngcasm54zoubi53)
 >[Vuex](https://vuex.vuejs.org/zh/)
 - 一种设计思想
 - 状态修改可预测(闭环，只有通过commit mutation修改数据)
@@ -28,3 +29,4 @@
 4. `v-leave`:定义离开过渡的开始状态。在离开过渡被触发时立刻生效，下一帧被移除。
 5. `v-leave-active`:定义离开过渡生效时的状态。在整个离开过渡的阶段中应用，在离开过渡被触发时立刻生效，在过渡/动画完成之后移除。这个类可以被用来定义离开过渡的过程时间，延迟和曲线函数。
 6. `v-leave-to`:定义离开过渡的结束状态。在离开过渡被触发之后下一帧生效 (与此同时 v-leave 被删除)，在过渡/动画完成之后移除。
+>[animation](https://github.com/HenrikJoreteg/create-keyframe-animation)
