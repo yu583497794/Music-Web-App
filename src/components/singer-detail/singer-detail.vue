@@ -7,7 +7,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 import {getSingerDetail} from 'api/singer'
 import {ERR_OK} from 'api/config'
 // eslint-disable-next-line
@@ -33,7 +33,8 @@ export default {
     },
     ...mapGetters([
       // 把 `this.singer` 映射为 `this.$store.getters.singer`
-      'singer'
+      'singer',
+      'sequenceList'
     ])
   },
   created () {
@@ -47,6 +48,7 @@ export default {
       getSingerDetail(this.singer.id).then((res) => {
         if (res.code === ERR_OK) {
           this.songs = this._normalizeSongs(res.data.list)
+          // this.setSquenceList(this.songs)
           // console.log(this.songs)
         }
       })
@@ -76,7 +78,10 @@ export default {
         }
       })
       return ret
-    }
+    },
+    ...mapMutations({
+      setSquenceList: 'SET_SEQUENCE_LIST'
+    })
   }
 }
 </script>

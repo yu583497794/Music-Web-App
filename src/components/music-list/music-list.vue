@@ -8,7 +8,7 @@
       <div class="play-wrapper">
         <div class="play" v-show="songs.length>0" ref="playBtn">
           <i class="icon-play"></i>
-          <span class="text">随机播放全部</span>
+          <span class="text" @click="random">随机播放全部</span>
         </div>
       </div>
       <!-- 模糊层 -->
@@ -96,9 +96,15 @@ export default {
         index
       })
     },
+    random () {
+      this.randomPlay({list: this.songs})
+    },
     ...mapActions([
       // 相当于 this.selectPaly = this.$store.dispatch('selectPlay')
-      'selectPlay'
+      // 选择歌曲列表播放
+      'selectPlay',
+      // 点击随机播放按钮播放
+      'randomPlay'
     ])
   },
   watch: {

@@ -92,6 +92,23 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           console.log(e)
         })
       })
+      app.get('/api/getLyric', function (req, res) {
+        var url = 'https://c.y.qq.com/lyric/fcgi-bin/fcg_query_lyric_new.fcg'
+        axios.get(url, {
+          headers: {
+            referer: 'https://y.qq.com/portal/player.html',
+            host: 'c.y.qq.com'
+          },
+          params: req.query
+        }).then((response) => {
+          const reg = /\((.*)\)/
+          var obj = reg.exec(response.data)[1]
+          // console.log(JSON.parse(obj))
+          res.json(JSON.parse(obj))
+        }).catch((e) => {
+          console.log(e)
+        })
+      })
     }
   },
   plugins: [
