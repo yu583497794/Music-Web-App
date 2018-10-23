@@ -1,6 +1,6 @@
 <template>
-  <div class="singer">
-    <list-view @select="selectSinger" :data="singers"></list-view>
+  <div class="singer" ref="singer">
+    <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
     <router-view ></router-view>
   </div>
 </template>
@@ -13,11 +13,12 @@ import Singer from 'common/js/singer'
 import Pinyin from 'common/js/ChinesePY'
 import ListView from 'base/listview/listview'
 import {mapMutations} from 'vuex'
-
+import {playlistMixin} from 'common/js/mixin'
 const HOT_NAME = '热门'
 const HOT_SINGER_LEN = 10
 export default {
   name: 'singer',
+  mixins: [playlistMixin],
   data () {
     return {
       singers: []
@@ -96,6 +97,11 @@ export default {
         path: `/singer/${singer.id}`
       })
       this.setSinger(singer)
+    },
+    handlePlaylist (playlist) {
+      const bottom = playlist.length > 0 ? '60px' : ''
+      this.$refs.singer.style.bottom = bottom
+      this.$refs.list.refresh()
     },
     // 当一个组件需要获取多个状态时候，使用mapState辅助函数，其返回一个对象
     // 使用对象展开运算符...将此对象混入到外部对象中

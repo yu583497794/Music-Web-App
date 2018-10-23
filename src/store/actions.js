@@ -1,8 +1,7 @@
 import * as types from './mutation-types'
 import {playMode} from 'common/js/config'
 import {shuffle} from 'common/js/util'
-// import {getSingerDetail} from 'api/singer'
-// import {createSong} from 'common/js/song'
+
 function findIndex(list, song) {
   return list.findIndex((item) => {
     return item.id === song.id

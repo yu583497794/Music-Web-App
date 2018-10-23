@@ -101,10 +101,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           },
           params: req.query
         }).then((response) => {
-          const reg = /\((.*)\)/
-          var obj = reg.exec(response.data)[1]
-          // console.log(JSON.parse(obj))
-          res.json(JSON.parse(obj))
+          var ret = response.data
+          const reg = /^\w+\((\{[^()]+\})\)$/
+          var matches = reg.exec(response.data)
+          if (matches) {
+            ret = JSON.parse(matches[1])
+          }
+          res.json(ret)
         }).catch((e) => {
           console.log(e)
         })

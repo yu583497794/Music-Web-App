@@ -25,13 +25,13 @@ export default {
       default: 0
     }
   },
-  data () {
+  data() {
     return {
       dashArray: Math.PI * 100
     }
   },
   computed: {
-    dashOffset () {
+    dashOffset() {
       return (1 - this.percent) * this.dashArray
     }
   }
@@ -39,18 +39,25 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-@import '~common/stylus/variable'
-  .progress-circle
-    position relative
-    circle
-    // 描边宽度
-      stroke-width 8px
-      transform-origin center
-      &.progress-background
-        // scale(0.9)确保是个⚪
-        transform scale(0.9)
-        stroke $color-theme-d
-      &.progress-bar
-        transform scale(0.9) rotate(-90deg)
-        stroke $color-theme
+@import '~common/stylus/variable';
+
+.progress-circle {
+  position: relative;
+
+  circle {
+    stroke-width: 8px;
+    transform-origin: center;
+
+    &.progress-background {
+      // scale(0.9)确保是个⚪
+      transform: scale(0.9);
+      stroke: $color-theme-d;
+    }
+
+    &.progress-bar {
+      transform: scale(0.9) rotate(-90deg);
+      stroke: $color-theme;
+    }
+  }
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="recommend">
+  <div class="recommend" ref="recommend">
     <!-- 必须确定scroll容器的高度！ -->
     <!-- scroll标签与scroll component的容器标签div共享class -->
     <!-- 因此必须指定scroll的高度，否则scroll不起作用 -->
@@ -47,8 +47,10 @@ import {ERR_OK} from 'api/config'
 import Slide from 'base/slide/slide'
 import Scroll from 'base/scroll/scroll'
 import Loading from 'base/loading/loading'
+import {playlistMixin} from 'common/js/mixin'
 export default {
   name: 'recommend',
+  mixins: [playlistMixin],
   data () {
     return {
       recommends: [],
@@ -85,6 +87,11 @@ export default {
         this.$refs.scroll.refresh()
         this.checkLoaded = true
       }
+    },
+    handlePlaylist (playlist) {
+      const bottom = playlist.length ? '60px' : ''
+      this.$refs.recommend.style.bottom = bottom
+      this.$refs.scroll.refresh()
     }
   },
   components: {

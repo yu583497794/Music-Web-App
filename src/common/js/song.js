@@ -1,6 +1,7 @@
 import {getLyric} from 'api/song'
 import {getMusic} from 'api/music'
 import {ERR_OK} from 'api/config'
+import {Base64} from 'js-base64'
 export default class Song {
   constructor({id, mid, singer, name, album, duration, image}) {
     this.id = id
@@ -15,21 +16,43 @@ export default class Song {
   }
 
   getLyric() {
-    getLyric(this.mid).then((res) => {
-      if (res.retcode === ERR_OK) {
-        this.lyric = res.lyric
-      }
+    if (this.lyric) {
+      return Promise.resolve(this.lyric)
+    }
+    return new Promise((resolve, reject) => {
+      getLyric(this.mid).then((res) => {
+        if (res.retcode === ERR_OK) {
+          this.lyric = Base64.decode(res.lyric)
+          resolve(this.lyric)
+        } else {
+          // eslint-disable-next-line
+          reject('no lyric')
+        }
+      })
     })
   }
-  geturl() {
-    var _this = this
-    getMusic(this.mid).then(function (res) {
-      let reg = /\((\{.*\})\)/
-      let obj = JSON.parse(reg.exec(res.data)[1])
-      const {req_0: {data: {midurlinfo: [{purl}]}}} = obj
-      _this.url = `http://isure.stream.qqmusic.qq.com/${purl}`
+  getURL() {
+    console.log('url')
+    if (this.url) {
+      return Promise.resolve(this.url)
+    }
+    // var _this = this
+    return new Promise((resolve, reject) => {
+      console.log('first')
+      getMusic(this.mid).then((res) => {
+        let reg = /\((\{.*\})\)/
+        let obj = JSON.parse(reg.exec(res.data)[1])
+        if (obj.code === ERR_OK) {
+          console.log('ERR_OK')
+          const {req_0: {data: {midurlinfo: [{purl}]}}} = obj
+          this.url = `http://isure.stream.qqmusic.qq.com/${purl}`
+          resolve(this.url)
+        } else {
+          // eslint-disable-next-line
+          reject('common/music/SING女团 - 寄明月.mp3')
+        }
+      })
     })
-    return this
   }
 }
 
@@ -47,7 +70,7 @@ export function createSong(musicData) {
     // url: `http://isure.stream.qqmusic.qq.com/${purl}`
     // http://isure.stream.qqmusic.qq.com/C400002Jbzn235xaQZ.m4a?guid=2022224225&vkey=C0FF5A8951141C9493CC822D8905D432C407BF1FC99785C2E27495E63AAC649A4B93374886F638F91E7E1BF3B20BAAC7987267412E6534E7&uin=6210&fromtag=66
     // http://isure.stream.qqmusic.qq.com/C400002Jbzn235xaQZ.m4a?guid=2022224225&vkey=C0FF5A8951141C9493CC822D8905D432C407BF1FC99785C2E27495E63AAC649A4B93374886F638F91E7E1BF3B20BAAC7987267412E6534E7&uin=6210&fromtag=66
-  }).geturl()
+  })
 }
 
 function filterSinger(singer) {
