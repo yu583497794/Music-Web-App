@@ -19,7 +19,8 @@
         <div class="middle"
           @touchstart.prevent="middleTouchStart"
           @touchmove.prevent="middleTouchMove"
-          @touchend.prevent="middleTouchEnd">
+          @touchend.prevent="middleTouchEnd"
+         >
           <!-- 左侧 -->
           <div class="middle-l" ref="middleL">
             <div class="cd-wrapper" ref="cdWrapper">

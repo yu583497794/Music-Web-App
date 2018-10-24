@@ -5,8 +5,9 @@
   ref="listview"
   :listenScroll="listenScroll"
   :probeType="probeType"
-  @scroll="scroll">
-    <ul class="list-wrapper">
+  @scroll="scroll"
+  >
+    <ul class="list-wrapper" ref="listWrapper">
       <li v-for="(group, index) in data" :key="index" class="list-group" ref="listGroup">
         <h2 class="list-group-title">{{group.title}}</h2>
         <ul>
@@ -18,7 +19,9 @@
         </ul>
       </li>
     </ul>
-    <div class="list-shortcut" @touchstart="onShortcutTouchStart" @touchmove.stop.prevent="onShortcutTouchMove">
+    <div class="list-shortcut"
+      @touchstart="onShortcutTouchStart"
+      @touchmove.stop.prevent="onShortcutTouchMove">
       <ul>
         <li
         v-for="(item, index) in shortcutList"
@@ -38,7 +41,9 @@
 
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll'
-import {getData} from 'common/js/dom'
+import {getData, prefixStyle} from 'common/js/dom'
+import {EventUtil} from 'common/js/util'
+const transform = prefixStyle('transform')
 const ANCHOR_HEIGHT = 18
 const TITLE_HEIGHT = 30
 export default {
@@ -49,6 +54,7 @@ export default {
     this.listenScroll = true
     this.listHeight = []
     this.probeType = 3
+    EventUtil.addHandler(document, 'mousewheel', this.onMousewheel)
   },
   // props computed与数据做绑定，以监听
   props: {
@@ -62,7 +68,8 @@ export default {
     return {
       scrollY: -1,
       diff: 0,
-      currentIndex: 0
+      currentIndex: 0,
+      maxScrollY: 0
     }
   },
   computed: {
@@ -129,12 +136,22 @@ export default {
         height += item.clientHeight
         this.listHeight.push(height)
       }
+      this.maxScrollY = this.listHeight[list.length - 1] - this.$refs.listview.$el.clientHeight
     },
     selectItem (item) {
       this.$emit('select', item)
     },
     refresh () {
       this.$refs.listview.refresh()
+    },
+    onMousewheel (event) {
+      const velocity = 20
+      event = EventUtil.getEvent(event)
+      EventUtil.getPrevent(event)
+      const deltaY = event.wheelDelta > 0 ? velocity : -velocity
+      // console.log(Math.max(this.scrollY + deltaY, -this.maxScrollY))
+      this.scrollY = Math.min(0, Math.max(this.scrollY + deltaY, -this.maxScrollY))
+      this.$refs.listWrapper.style[transform] = `translate3d(0, ${this.scrollY}px, 0)`
     }
   },
   watch: {
@@ -179,6 +196,9 @@ export default {
   },
   components: {
     Scroll
+  },
+  deactivated () {
+    EventUtil.removeHandler(document, 'mousewheel', this.onMousewheel)
   }
 }
 </script>
