@@ -6,6 +6,7 @@
 
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
+import {EventUtil} from 'common/js/util'
 export default {
   props: {
     probeType: {
@@ -28,6 +29,7 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this._initScroll()
+      EventUtil.addHandler(document, 'mousewheel', this.mouseWheelHandler)
     })
     // setTimeout(() => {
     //   this._initScroll()
@@ -67,6 +69,13 @@ export default {
     scrollToElement() {
       // console.log('scrollToElement')
       this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
+    },
+    mouseWheelHandler (event) {
+      const velocity = 20
+      event = EventUtil.getEvent()
+      EventUtil.getPrevent(event)
+      const delta = event.wheelDelta > 0 ? velocity : -velocity
+      this.scroll.scrollBy(0, delta, 100)
     }
   },
   watch: {
@@ -86,6 +95,12 @@ export default {
         this.refresh()
       }, 20)
     }
+  },
+  activated () {
+    EventUtil.addHandler(document, 'mousewheel', this.mouseWheelHandler)
+  },
+  deactivated () {
+    EventUtil.removeHandler(document, 'mousewheel', this.mouseWheelHandler)
   }
 }
 </script>

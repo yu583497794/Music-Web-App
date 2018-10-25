@@ -128,7 +128,6 @@ export default {
         }
       })
       this.slide.on('touchEnd', () => {
-        console.log('touchEnd')
         if (this.autoPlay) {
           this._play()
         }
@@ -154,6 +153,11 @@ export default {
       this.timer = setTimeout(() => {
         this.slide.next()
       }, this.interval)
+    }
+  },
+  activated () {
+    if (this.autoPlay) {
+      this._play()
     }
   },
   destroyed () {

@@ -41,6 +41,7 @@ import Loading from 'base/loading/loading'
 import {prefixStyle} from 'common/js/dom'
 import {mapActions} from 'vuex'
 import {playlistMixin} from 'common/js/mixin'
+// import {EventUtil} from 'common/js/util'
 const RESERVED_HIGHT = 40
 const transform = prefixStyle('transform')
 const backdrop = prefixStyle('backdrop-filter')
@@ -84,6 +85,7 @@ export default {
     this.imageHeight = this.$refs.bgImage.clientHeight
     this.minTranslateY = -this.imageHeight + RESERVED_HIGHT
     this.$refs.list.$el.style.top = `${this.imageHeight}px`
+    // EventUtil.addHandler(document, 'mousewheel', this.mouseWheelHandler)
   },
   methods: {
     scroll (pos) {
@@ -106,6 +108,13 @@ export default {
       this.$refs.list.$el.style.bottom = bottom
       this.$refs.list.refresh()
     },
+    // mouseWheelHandler (event) {
+    //   event = EventUtil.getEvent(event)
+    //   EventUtil.getPrevent(event)
+    //   const delta = event.wheelDelta > 0 ? 20 : -20
+    //   this.scrollY += delta
+    //   this.$refs.list.scrollTo(0, this.scrollY, 100)
+    // },
     ...mapActions([
       // 相当于 this.selectPaly = this.$store.dispatch('selectPlay')
       // 选择歌曲列表播放
@@ -157,6 +166,12 @@ export default {
       // console.log(this.$refs.bgImage.style['webkit-transform'])
     }
   }
+  // activated () {
+  //   EventUtil.addHandler(document, 'mousewheel', this.mouseWheelHandler)
+  // },
+  // deactivated () {
+  //   EventUtil.removeHandler(document, 'mousewheel', this.mouseWheelHandler)
+  // }
 }
 </script>
 

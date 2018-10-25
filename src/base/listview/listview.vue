@@ -197,6 +197,9 @@ export default {
   components: {
     Scroll
   },
+  activated () {
+    EventUtil.addHandler(document, 'mousewheel', this.onMousewheel)
+  },
   deactivated () {
     EventUtil.removeHandler(document, 'mousewheel', this.onMousewheel)
   }
