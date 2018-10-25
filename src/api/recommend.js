@@ -25,7 +25,9 @@ export function getDiscList() {
     categoryId: 10000000,
     sortId: 5,
     sin: 0,
-    ein: 29
+    ein: 29,
+    inCharset: 'utf8',
+    outCharset: 'utf-8'
   })
 
   return axios.get('/api/getDiscList', {

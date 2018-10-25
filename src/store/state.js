@@ -9,7 +9,8 @@ const state = {
   // 歌手页默认列表
   sequenceList: [],
   mode: playMode.sequence,
-  currentIndex: -1
+  currentIndex: -1,
+  disc: {}
 }
 
 export default state

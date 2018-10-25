@@ -92,7 +92,8 @@ export default {
       this.scrollY = pos.y
     },
     back () {
-      this.$router.push('/singer')
+      // router.go(n)这个方法的参数是一个整数，意思是在 history 记录中向前或者后退多少步，类似 window.history.go(n)。
+      this.$router.go(-1)
     },
     selectItem (item, index) {
       this.selectPlay({
@@ -165,6 +166,9 @@ export default {
       // console.log(this.$refs.bgImage.style['transform'])
       // console.log(this.$refs.bgImage.style['webkit-transform'])
     }
+  },
+  songs () {
+    console.log(this.songs)
   }
   // activated () {
   //   EventUtil.addHandler(document, 'mousewheel', this.mouseWheelHandler)
