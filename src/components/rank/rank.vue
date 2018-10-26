@@ -73,7 +73,7 @@ export default {
 @import '~common/stylus/mixin'
   .rank
     position fixed
-    top: 90px
+    top: 88px
     left: 0
     bottom: 0
     right: 0
