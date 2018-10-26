@@ -25,7 +25,7 @@
     @scroll="scroll"
     >
       <div class="song-list-wrapper">
-        <song-list @select="selectItem" :songs="songs"></song-list>
+        <song-list @select="selectItem" :songs="songs" :rank="rank"></song-list>
       </div>
       <div class="load-wrapper" v-show="!songs.length">
         <loading class="loading"></loading>
@@ -65,6 +65,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    rank: {
+      type: Boolean,
+      default: false
     }
   },
   components: {
@@ -264,9 +268,12 @@ export default {
       bottom  0
       left 0
       // overflow hidden
+      // .song-list-wrapper
+      //   position relative
+      //   width 100%
+      //   height 100%
       .song-list-wrapper
-        position absolute
-        width 100%
+        padding: 20px 30px
       .load-wrapper
         position absolute
         width 100%
