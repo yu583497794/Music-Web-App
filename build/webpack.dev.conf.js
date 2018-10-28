@@ -129,12 +129,28 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           //   'accept-language': 'zh-CN, zh;q = 0.9',
           //   cookie: 'pt2gguin=o0583497794; RK=vU7Ut5iEQ/; ptcz=75179b09307dd783ce9a77d5ea20a9a107bb42f4caf336824fc943253918201e; pgv_pvid=2022224225; o_cookie=583497794; pac_uid=1_583497794; cuid=4546319240; pgv_pvi=2505669632; ts_uid=2915816775; ptisp=cm; pgv_info=ssid=s1901470322; pgv_si=s3043667968; ts_refer=ADTAGnewyqq.taoge; yqq_stat=0; player_exist=1; yq_playschange=0; yq_playdata=; qqmusic_fromtag=66; yq_index=1; yplayer_open=0; ts_last=y.qq.com/n/yqq/playsquare/844538289.html'
           // },
-          header: {
+          headers: {
             host: 'ustbhuangyi.com',
             Referer: 'http://ustbhuangyi.com/music/'
           },
           params: req.query
         }).then((response) => {
+          res.json(response.data)
+        })
+      })
+      app.get('/api/getSearch', function  (req, res) {
+        console.log('getSearch')
+        const url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
+        return axios.get(url, {
+          headers: {
+            referer: 'https://y.qq.com/m/index.html',
+            origin: 'https://y.qq.com',
+            host: 'c.y.qq.com',
+            'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1'
+          },
+          params: req.query
+        }).then((response) => {
+          console.log(response.data)
           res.json(response.data)
         })
       })
