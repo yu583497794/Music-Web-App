@@ -24,6 +24,11 @@ export default {
     listenScroll: {
       type: Boolean,
       default: false
+    },
+    // 上拉刷新
+    pullup: {
+      type: Boolean,
+      default: false
     }
   },
   mounted () {
@@ -53,6 +58,15 @@ export default {
           me.$emit('scroll', pos)
         })
       }
+      if (this.pullup) {
+        let me = this
+        this.scroll.on('scrollEnd', () => {
+          if (this.scroll.y <= (this.scroll.maxScrollY + 50)) {
+            // 只派发事件，不做逻辑
+            me.$emit('scrollToEnd')
+          }
+        })
+      }
     },
     enable () {
       this.scroll && this.scroll.enable()
@@ -73,6 +87,7 @@ export default {
     mouseWheelHandler (event) {
       const velocity = 20
       event = EventUtil.getEvent()
+      EventUtil.getStop(event)
       EventUtil.getPrevent(event)
       const delta = event.wheelDelta > 0 ? velocity : -velocity
       this.scroll.scrollBy(0, delta, 100)

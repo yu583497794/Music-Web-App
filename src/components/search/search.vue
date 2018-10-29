@@ -14,10 +14,22 @@
           </ul>
         </div>
       </div>
+      <div class="search-history" v-show="searchHistory.length">
+        <h1 class="title">
+          <span class="text">搜索历史</span>
+          <span class="clear">
+            <i class="icon-clear"></i>
+          </span>
+        </h1>
+        <div class="search-list-wrapper">
+          <search-list :searches="searchHistory"></search-list>
+        </div>
+      </div>
     </div>
     <div class="search-result" v-show="query">
-      <suggest :query="query"></suggest>
+      <suggest :query="query" @select="saveSearch"></suggest>
     </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -26,6 +38,8 @@ import SearchBox from 'base/search-box/search-box'
 import {getHotKey} from 'api/search'
 import {ERR_OK} from 'api/config'
 import Suggest from 'base/suggest/suggest'
+import {mapActions, mapGetters} from 'vuex'
+import SearchList from 'base/search-list/search-list'
 export default {
   name: 'search',
   data () {
@@ -47,14 +61,27 @@ export default {
     },
     onQueryChange (query) {
       this.query = query
-    }
+    },
+    saveSearch () {
+      this.saveSearchHistory(this.query)
+      console.log(this.searchHistory)
+    },
+    ...mapActions([
+      'saveSearchHistory'
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      'searchHistory'
+    ])
   },
   created () {
     this._getHotKey()
   },
   components: {
     SearchBox,
-    Suggest
+    Suggest,
+    SearchList
   }
 }
 </script>
@@ -88,6 +115,14 @@ export default {
             border-radius 6px
             font-size $font-size-medium
             color $color-text-d
+      .search-history
+        margin 0 20px
+        .title
+          display flex
+          justify-content space-between
+          font-size $font-size-medium
+          color $color-text-l
+          margin 20px 0
     .search-result
       position fixed
       top 178px

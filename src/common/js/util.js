@@ -52,5 +52,12 @@ export const EventUtil = {
     } else {
       event.returnValue = false
     }
+  },
+  getStop: (event) => {
+    if (event.stopPropagation) {
+      event.stopPropagation()
+    } else {
+      event.cancelBubble = true
+    }
   }
 }
