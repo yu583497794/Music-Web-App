@@ -319,7 +319,6 @@ export default {
       let index = list.findIndex((item) => {
         return item.id === this.currentSong.id
       })
-      console.log(index)
       this.setCurrentIndex(index)
     },
     end () {
@@ -342,7 +341,6 @@ export default {
         if (this.playing) {
           this.currentLyric.play()
         }
-        console.log(this.currentLyric)
       }).catch(() => {
         // 清理操作
         this.currentLyric = null

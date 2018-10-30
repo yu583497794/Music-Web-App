@@ -133,6 +133,9 @@ export default {
       // 派发事件，不处理逻辑
       this.$emit('select')
     },
+    refresh () {
+      this.$refs.suggest.refresh()
+    },
     ...mapMutations({
       setSinger: 'SET_SINGER'
     }),

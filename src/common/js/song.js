@@ -32,18 +32,15 @@ export default class Song {
     })
   }
   getURL() {
-    console.log('url')
     if (this.url) {
       return Promise.resolve(this.url)
     }
     // var _this = this
     return new Promise((resolve, reject) => {
-      console.log('first')
       getMusic(this.mid).then((res) => {
         let reg = /\((\{.*\})\)/
         let obj = JSON.parse(reg.exec(res.data)[1])
         if (obj.code === ERR_OK) {
-          console.log('ERR_OK')
           const {req_0: {data: {midurlinfo: [{purl}]}}} = obj
           this.url = `http://isure.stream.qqmusic.qq.com/${purl}`
           resolve(this.url)

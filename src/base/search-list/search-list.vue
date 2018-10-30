@@ -1,18 +1,19 @@
 <template>
-  <scroll class="search-list" v-show="searches.length">
+  <div class="search-list" v-show="searches.length" :data="searches">
     <ul>
-      <li v-for="(item, index) in searches" :key="index" class="item">
+      <li @click="selectItem(item)" v-for="(item, index) in searches" :key="index" class="item">
         <span class="text">{{item}}</span>
-        <span class="icon">
+        <!-- 防止冒泡 -->
+        <span class="icon" @click.stop="deleteOne(item)">
           <i class="icon-delete"></i>
         </span>
       </li>
     </ul>
-  </scroll>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
-import Scroll from 'base/scroll/scroll'
+// import Scroll from 'base/scroll/scroll'
 export default {
   name: 'search-list',
   data () {
@@ -26,9 +27,18 @@ export default {
       default: null
     }
   },
-  components: {
-    Scroll
+  methods: {
+    selectItem (item) {
+      console.log('select')
+      this.$emit('select', item)
+    },
+    deleteOne (item) {
+      this.$emit('delete', item)
+    }
   }
+  // components: {
+  //   Scroll
+  // }
 }
 </script>
 

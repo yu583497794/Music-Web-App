@@ -43,14 +43,10 @@ export function search (query, page, zhida, perpage) {
   }).then((res) => {
     var ret = []
     const reg = /^\w+\((\{.+\})\)$/
-    console.log(res.data)
     const matches = reg.exec(res.data)
-    console.log(matches)
     if (matches) {
       ret = matches[1]
-      console.log(matches[1])
     }
-    console.log(ret)
     return Promise.resolve(JSON.parse(ret))
   })
 }
