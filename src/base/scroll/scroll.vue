@@ -1,6 +1,6 @@
 <template>
-  <div ref='wrapper' class="scroll">
-    <slot></slot>
+  <div ref='wrapper' class="scroll" >
+    <slot class="wheelscroll"></slot>
   </div>
 </template>
 
@@ -34,7 +34,10 @@ export default {
   mounted () {
     this.$nextTick(() => {
       this._initScroll()
+      const elem = document.getElementsByClassName('wheelscroll')
+      // console.log(elem)
       EventUtil.addHandler(document, 'mousewheel', this.mouseWheelHandler)
+      EventUtil.addHandler(elem, 'mousewheel', this.mouseWheelHandler)
     })
     // setTimeout(() => {
     //   this._initScroll()
@@ -85,6 +88,9 @@ export default {
       this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
     },
     mouseWheelHandler (event) {
+      if (!this.scroll) {
+        return
+      }
       const velocity = 20
       event = EventUtil.getEvent()
       EventUtil.getStop(event)
