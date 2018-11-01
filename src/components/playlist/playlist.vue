@@ -5,8 +5,8 @@
       <div class="list-wrapper" @click.stop>
         <div class="list-header">
           <h1 class="title">
-            <i class="icon"></i>
-            <span class="text"></span>
+            <i class="icon" :class="iconMode" @click.stop="changeMode"></i>
+            <span class="text">{{modeText}}</span>
             <span class="clear" @click.stop="showConfirm">
               <i class="icon-clear"></i>
             </span>
@@ -29,7 +29,7 @@
         <div class="list-operator">
           <div class="add">
             <i class="icon-add"></i>
-            <span class="text">添加歌曲到队列</span>
+            <span class="text" @click="addSong">添加歌曲到队列</span>
           </div>
         </div>
         <div class="list-close" @click="hide">
@@ -37,29 +37,36 @@
         </div>
       </div>
       <confirm ref="confirm" text="是否清空播放列表" comfirmBtn="清空" @confirm="confirmClear"></confirm>
+      <add-song ref="addSong"></add-song>
     </div>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
 import Scroll from 'base/scroll/scroll'
-import {mapGetters, mapMutations, mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 import {playMode} from 'common/js/config'
 import Confirm from 'base/confirm/confirm'
+import {playerMixin} from 'common/js/mixin'
+import AddSong from 'components/add-song/add-song'
 export default {
   name: 'playlist',
+  mixins: [playerMixin],
   data () {
     return {
       showFlag: false
     }
   },
   computed: {
-    ...mapGetters([
-      'sequenceList',
-      'playlist',
-      'currentSong',
-      'mode'
-    ])
+    modeText () {
+      return this.mode === playMode.sequence ? '顺序播放' : this.mode === playMode.loop ? '循环播放' : '单曲播放'
+    }
+    // ...mapGetters([
+    //   'sequenceList',
+    //   'playlist',
+    //   'currentSong',
+    //   'mode'
+    // ])
   },
   methods: {
     show () {
@@ -106,10 +113,13 @@ export default {
       this.clearSong()
       this.hide()
     },
-    ...mapMutations({
-      setCurrentIndex: 'SET_CURRENT_INDEX',
-      setPlayingState: 'SET_PLAYING_STATE'
-    }),
+    addSong () {
+      this.$refs.addSong.show()
+    },
+    // ...mapMutations({
+    //   setCurrentIndex: 'SET_CURRENT_INDEX',
+    //   setPlayingState: 'SET_PLAYING_STATE'
+    // }),
     ...mapActions([
       'deleteSong',
       'clearSong'
@@ -125,7 +135,8 @@ export default {
   },
   components: {
     Scroll,
-    Confirm
+    Confirm,
+    AddSong
   }
 }
 </script>

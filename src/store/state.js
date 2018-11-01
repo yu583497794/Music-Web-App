@@ -1,6 +1,6 @@
 // 与模块相关的数据
 import {playMode} from 'common/js/config'
-import {loadSearch} from 'common/js/cache'
+import {loadSearch, loadRecent} from 'common/js/cache'
 const state = {
   singer: {},
   playing: false,
@@ -13,7 +13,8 @@ const state = {
   currentIndex: -1,
   disc: {},
   topList: {},
-  searchHistory: loadSearch()
+  searchHistory: loadSearch(),
+  recentPlaylist: loadRecent()
 }
 
 export default state

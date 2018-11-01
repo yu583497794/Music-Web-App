@@ -2,7 +2,9 @@
 import storage from 'good-storage'
 // __XX__内部值
 const SEARCH_KEY = '__search__'
+const RECENT_KEY = '__recent__'
 const SEARCH_MAX_LENGTH = 15
+const RECENT_MAX_LENGTH = 15
 function insertArray (arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
   if (index === 0) {
@@ -46,4 +48,16 @@ export function deleteSearch(query) {
 export function clearSearch() {
   storage.remove(SEARCH_KEY)
   return []
+}
+
+export function saveRecent (song) {
+  let recents = storage.get(RECENT_KEY, [])
+  insertArray(recents, song, (item) => {
+    return item.id === song.id
+  }, RECENT_MAX_LENGTH)
+  return storage.set(RECENT_KEY, recents)
+}
+
+export function loadRecent() {
+  return storage.get(RECENT_KEY, [])
 }

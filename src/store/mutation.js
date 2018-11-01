@@ -31,6 +31,9 @@ const mutations = {
   },
   [types.SET_SEARCH_HISTORY](state, history) {
     state.searchHistory = history
+  },
+  [types.SET_RECENT_PLAYLIST](state, recentPlaylist) {
+    state.recentPlaylist = recentPlaylist
   }
   // [types.SET_TOPLIST_ID](state, id) {
   //   state.toplistId = id
