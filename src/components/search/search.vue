@@ -75,13 +75,13 @@ export default {
     // addQuery (query) {
     //   this.$refs.searchBox.setQuery(query)
     // },
-    onQueryChange (query) {
-      this.query = query
-    },
-    saveSearch () {
-      this.saveSearchHistory(this.query)
-      // console.log(this.searchHistory)
-    },
+    // onQueryChange (query) {
+    //   this.query = query
+    // },
+    // saveSearch () {
+    //   this.saveSearchHistory(this.query)
+    //   // console.log(this.searchHistory)
+    // },
     showConfirm () {
       this.$refs.confirm.show()
     },
@@ -99,7 +99,7 @@ export default {
     //   this.$refs.historyList.style.top = `${rect.bottom}px`
     // },
     ...mapActions([
-      'saveSearchHistory',
+      // 'saveSearchHistory',
       'clearSearchHistory'
     ])
   },

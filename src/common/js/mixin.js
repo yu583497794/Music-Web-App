@@ -73,9 +73,21 @@ export const playerMixin = {
 }
 
 export const searchListMixin = {
+  data() {
+    return {
+      query: ''
+    }
+  },
   methods: {
     addQuery(query) {
       this.$refs.searchBox.setQuery(query)
+    },
+    onQueryChange(query) {
+      this.query = query
+    },
+    saveSearch() {
+      this.saveSearchHistory(this.query)
+      // console.log(this.searchHistory)
     },
     ...mapActions([
       'deleteSearchHistory'
@@ -83,7 +95,8 @@ export const searchListMixin = {
   },
   computed: {
     ...mapGetters([
-      'searchHistory'
+      'searchHistory',
+      'saveSearchHistory'
     ])
   }
 }

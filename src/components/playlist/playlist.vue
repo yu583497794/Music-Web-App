@@ -17,7 +17,7 @@
             <li ref="listItem" class="item" v-for="(item, index) in sequenceList" :key="item.id" @click="selectItem(item, index)">
               <i class="current" :class="getCurrentIcon(item)"></i>
               <span class="text">{{item.name}}</span>
-              <span class="like">
+              <span class="like" @click.stop="likeOne(item)">
                 <i class="icon-not-favorite"></i>
               </span>
               <span class="delete" @click.stop="deleteOne(item)">
@@ -115,6 +115,9 @@ export default {
     },
     addSong () {
       this.$refs.addSong.show()
+    },
+    likeOne (item) {
+      console.log('likeOne')
     },
     // ...mapMutations({
     //   setCurrentIndex: 'SET_CURRENT_INDEX',

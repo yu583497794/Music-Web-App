@@ -17,3 +17,4 @@ export const disc = (state) => state.disc
 export const topList = (state) => state.topList
 export const searchHistory = (state) => state.searchHistory
 export const recentPlaylist = (state) => state.recentPlaylist
+export const likeList = (state) => state.likeList

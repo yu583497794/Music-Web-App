@@ -446,6 +446,7 @@ export default {
       //     this.getLyric()
       //   })
       // })
+      console.log('player', this.currentSong)
       this.currentSong.getURL().then((url) => {
         setTimeout(() => {
           this.$refs.audio.play()
