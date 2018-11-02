@@ -100,3 +100,22 @@ export const searchListMixin = {
     ])
   }
 }
+
+export const favoriteMixin = {
+  methods: {
+    favoriteCls(item) {
+      const fIndex = this.likeList.findIndex((id) => {
+        return id === item.id
+      })
+      return fIndex === -1 ? 'icon-not-favorite' : 'icon-favorite'
+    },
+    ...mapActions([
+      'toggleLike'
+    ])
+  },
+  computed: {
+    ...mapGetters([
+      'likeList'
+    ])
+  }
+}

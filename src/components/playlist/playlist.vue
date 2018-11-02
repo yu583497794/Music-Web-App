@@ -17,8 +17,8 @@
             <li ref="listItem" class="item" v-for="(item, index) in sequenceList" :key="item.id" @click="selectItem(item, index)">
               <i class="current" :class="getCurrentIcon(item)"></i>
               <span class="text">{{item.name}}</span>
-              <span class="like" @click.stop="likeOne(item)">
-                <i class="icon-not-favorite"></i>
+              <span class="like" @click.stop="toggleLike(item)">
+                <i :class="favoriteCls(item)"></i>
               </span>
               <span class="delete" @click.stop="deleteOne(item)">
                 <i class="icon-delete"></i>
@@ -47,11 +47,11 @@ import Scroll from 'base/scroll/scroll'
 import {mapActions} from 'vuex'
 import {playMode} from 'common/js/config'
 import Confirm from 'base/confirm/confirm'
-import {playerMixin} from 'common/js/mixin'
+import {playerMixin, favoriteMixin} from 'common/js/mixin'
 import AddSong from 'components/add-song/add-song'
 export default {
   name: 'playlist',
-  mixins: [playerMixin],
+  mixins: [playerMixin, favoriteMixin],
   data () {
     return {
       showFlag: false
@@ -62,10 +62,11 @@ export default {
       return this.mode === playMode.sequence ? '顺序播放' : this.mode === playMode.loop ? '循环播放' : '单曲播放'
     }
     // ...mapGetters([
-    //   'sequenceList',
-    //   'playlist',
-    //   'currentSong',
-    //   'mode'
+    // //   'sequenceList',
+    // //   'playlist',
+    // //   'currentSong',
+    // //   'mode'
+    //   'likeList'
     // ])
   },
   methods: {
@@ -115,9 +116,6 @@ export default {
     },
     addSong () {
       this.$refs.addSong.show()
-    },
-    likeOne (item) {
-      console.log('likeOne')
     },
     // ...mapMutations({
     //   setCurrentIndex: 'SET_CURRENT_INDEX',

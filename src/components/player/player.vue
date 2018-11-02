@@ -66,7 +66,7 @@
               <i @click="next" class="icon-next"></i>
             </div>
             <div class="icon i-right">
-              <i class="icon icon-favorite"></i>
+              <i class="icon" :class="favoriteCls(currentSong)" @click.stop="toggleLike(currentSong)"></i>
             </div>
           </div>
         </div>
@@ -110,12 +110,12 @@ import ProgressCircle from 'base/progress-circle/progress-circle'
 import {playMode} from 'common/js/config'
 import Lyric from 'lyric-parser'
 import Playlist from 'components/playlist/playlist'
-import {playerMixin} from 'common/js/mixin'
+import {playerMixin, favoriteMixin} from 'common/js/mixin'
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
 export default {
   name: 'player',
-  mixins: [playerMixin],
+  mixins: [playerMixin, favoriteMixin],
   data () {
     return {
       songReady: false,
@@ -446,7 +446,6 @@ export default {
       //     this.getLyric()
       //   })
       // })
-      console.log('player', this.currentSong)
       this.currentSong.getURL().then((url) => {
         setTimeout(() => {
           this.$refs.audio.play()
