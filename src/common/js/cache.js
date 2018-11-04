@@ -2,11 +2,12 @@
 import storage from 'good-storage'
 // __XX__内部值
 const SEARCH_KEY = '__search__'
+// PLAY_KEY = '__play__'
 const RECENT_KEY = '__recent__'
 const LIKE_KEY = '__like__'
 const SEARCH_MAX_LENGTH = 15
-const RECENT_MAX_LENGTH = 15
-const LIKE_MAX_LENGTH = 100
+const RECENT_MAX_LENGTH = 200
+const LIKE_MAX_LENGTH = 200
 function insertArray (arr, val, compare, maxLen) {
   const index = arr.findIndex(compare)
   if (index === 0) {

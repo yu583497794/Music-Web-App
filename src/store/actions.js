@@ -57,9 +57,11 @@ export const insertSong = function ({commit, state}, song) {
   let fsIndex = findIndex(sequenceList, song)
   sequenceList.splice(currentSIndex, 0, song)
   if (fsIndex > -1) {
+    // 当前插入位置在已存在位置之后，插入后fsIndex不受影响
     if (currentSIndex > fsIndex) {
       sequenceList.splice(fsIndex, 1)
     } else {
+    // 当前插入位置在已存在位置之前，插入后fsIndex受影响
       sequenceList.splice(fsIndex + 1, 1)
     }
   }
@@ -112,7 +114,7 @@ export const clearSong = function ({commit}) {
   commit(types.SET_CURRENT_INDEX, -1)
   commit(types.SET_PLAYING_STATE, false)
 }
-
+// savePlayHistory
 export const saveRecentPlaylist = function ({commit}, song) {
   commit(types.SET_RECENT_PLAYLIST, saveRecent(song))
 }

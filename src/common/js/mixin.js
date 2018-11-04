@@ -75,7 +75,8 @@ export const playerMixin = {
 export const searchListMixin = {
   data() {
     return {
-      query: ''
+      query: '',
+      refreshDelay: 100
     }
   },
   methods: {
@@ -89,14 +90,17 @@ export const searchListMixin = {
       this.saveSearchHistory(this.query)
       // console.log(this.searchHistory)
     },
+    blurInput () {
+      this.$refs.searchBox.blur()
+    },
     ...mapActions([
-      'deleteSearchHistory'
+      'deleteSearchHistory',
+      'saveSearchHistory'
     ])
   },
   computed: {
     ...mapGetters([
-      'searchHistory',
-      'saveSearchHistory'
+      'searchHistory'
     ])
   }
 }

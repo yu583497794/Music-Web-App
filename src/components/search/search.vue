@@ -4,7 +4,7 @@
       <search-box ref="searchBox" @query="onQueryChange"></search-box>
     </div>
     <div class="shortcut-wrapper" ref="shortcutWrapper" v-show="!query">
-      <scroll class="shortcut" ref="shortcut" :data="shortcut">
+      <scroll class="shortcut" ref="shortcut" :data="shortcut" :refreshDelay="refreshDelay">
         <div>
           <div class="hot-key">
             <h1 class="title">热门搜索</h1>
@@ -114,7 +114,7 @@ export default {
   },
   computed: {
     shortcut() {
-      return this.hotKey.concat(this.saveSearchHistory)
+      return this.hotKey.concat(this.searchHistory)
     }
     // ...mapGetters([
     //   'searchHistory'
@@ -122,7 +122,7 @@ export default {
   },
   created () {
     this._getHotKey()
-    console.log(this.$refs)
+    // console.log(this.$refs)
     // this._setHistoryTop()
   },
   components: {

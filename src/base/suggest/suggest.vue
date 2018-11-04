@@ -3,6 +3,7 @@
           :data="result"
           :pullup="pullup"
           @scrollToEnd="searchMore"
+          @beforeScroll="listScroll"
           ref="suggest">
     <ul class="suggest-list">
       <li class="suggest-item" v-for="(item, index) in result" :key="index" @click="selectItem(item)">
@@ -56,9 +57,9 @@ export default {
       this.page = 1
       this.$refs.suggest.scrollTo(0, 0)
       search(this.query, this.page, this.showSinger, perpage).then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         if (res.code === ERR_OK) {
-          console.log(res)
+          // console.log(res)
           this.result = this._genResult(res.data)
           this._checkMore(res.data)
         }
@@ -69,7 +70,7 @@ export default {
       if (data.zhida && data.zhida.singerid) {
         ret.push({...data.zhida, ...{type: TYPE_SINGER}})
       }
-      console.log(data.song)
+      // console.log(data.song)
       if (data.song) {
         ret = ret.concat(this._normalize(data.song.list))
       }
@@ -113,7 +114,7 @@ export default {
       this.page++
       search(this.query, this.page, this.showSinger, perpage).then((res) => {
         this.result = this.result.concat(this._genResult(res.data))
-        console.log(this.result)
+        // console.log(this.result)
         this._checkMore(res.data)
       })
     },
@@ -131,10 +132,13 @@ export default {
         this.insertSong(item)
       }
       // 派发事件，不处理逻辑
-      this.$emit('select')
+      this.$emit('select', item)
     },
     refresh () {
       this.$refs.suggest.refresh()
+    },
+    listScroll () {
+      this.$emit('listScroll')
     },
     ...mapMutations({
       setSinger: 'SET_SINGER'

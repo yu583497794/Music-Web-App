@@ -12,7 +12,8 @@
             </span>
           </h1>
         </div>
-        <scroll class="list-content" :data="sequenceList" ref="listContent">
+        <!-- 动画有缓动的过程，因此refresh太快不准 -->
+        <scroll class="list-content" :data="sequenceList" ref="listContent" :refreshDlay="refreshDelay">
           <transition-group name="list" tag="ul">
             <li ref="listItem" class="item" v-for="(item, index) in sequenceList" :key="item.id" @click="selectItem(item, index)">
               <i class="current" :class="getCurrentIcon(item)"></i>
@@ -54,7 +55,8 @@ export default {
   mixins: [playerMixin, favoriteMixin],
   data () {
     return {
-      showFlag: false
+      showFlag: false,
+      refreshDelay: 100
     }
   },
   computed: {
@@ -96,10 +98,11 @@ export default {
       this.setPlayingState(true)
     },
     scrollToCurrent (current) {
+      console.log('scrollToCurrent')
       const index = this.sequenceList.findIndex((song) => {
         return current.id === song.id
       })
-      this.$refs.listContent.scrollToElement(this.$refs.listItem[index], 300)
+      this.$refs.listContent.scrollToElement(this.$refs.listItem[index], 400)
     },
     deleteOne (item) {
       this.deleteSong(item)

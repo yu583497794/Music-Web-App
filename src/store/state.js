@@ -14,6 +14,7 @@ const state = {
   disc: {},
   topList: {},
   searchHistory: loadSearch(),
+  // playHistory
   recentPlaylist: loadRecent(),
   likeList: loadLike()
 }
