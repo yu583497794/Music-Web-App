@@ -89,7 +89,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           },
           params: req.query
         }).then((response) => {
-          console.log(response.data)
+          // console.log(response.data)
           res.json(response.data)
         }).catch((e) => {
           console.log(e)
@@ -116,7 +116,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
       })
       app.get('/api/getDisc', function (req, res) {
-        console.log('getDisc')
+        // console.log('getDisc')
         // const url = 'https://c.y.qq.com/qzone/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
         const url = 'http://ustbhuangyi.com/music/api/getCdInfo'
         axios.get(url, {
@@ -139,7 +139,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
       })
       app.get('/api/getSearch', function  (req, res) {
-        console.log('getSearch')
+        // console.log('getSearch')
         const url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
         return axios.get(url, {
           headers: {
@@ -150,7 +150,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
           },
           params: req.query
         }).then((response) => {
-          console.log(response.data)
+          // console.log(response.data)
           res.json(response.data)
         })
       })

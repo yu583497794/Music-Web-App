@@ -27,7 +27,6 @@ export default {
   },
   computed: {
     title () {
-      console.log(this.topList.topTitle)
       return this.topList.topTitle
     },
     bgImage () {

@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     selectItem (item) {
-      console.log('select')
+      // console.log('select')
       this.$emit('select', item)
     },
     deleteOne (item) {

@@ -98,7 +98,7 @@ export default {
       this.setPlayingState(true)
     },
     scrollToCurrent (current) {
-      console.log('scrollToCurrent')
+      // console.log('scrollToCurrent')
       const index = this.sequenceList.findIndex((song) => {
         return current.id === song.id
       })

@@ -55,7 +55,7 @@ export const EventUtil = {
   },
   getStop: (event) => {
     if (event.stopPropagation) {
-      console.log('stop')
+      // console.log('stop')
       event.stopPropagation()
     } else {
       event.cancelBubble = true

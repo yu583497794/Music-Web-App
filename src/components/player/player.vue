@@ -95,7 +95,16 @@
     </transition>
     <playlist ref="playlist"></playlist>
     <!-- end歌曲播放完 -->
-    <audio ref="audio" :src="currentSong.url" @canplay="ready"  @error="error" @timeupdate="updateTime" @ended="end"></audio>
+    <!-- @canplay 改为 play -->
+    <!-- canplay当文件就绪可以开始播放时运行的脚本 -->
+    <!-- play当媒介已就绪可以播放时运行的脚本 -->
+    <audio ref="audio" :src="currentSong.url" @play="ready"  @error="error" @timeupdate="updateTime" @ended="end"></audio>
+    <top-tip ref="topTip">
+      <div class="tip-title">
+        <i class="icon-delete"></i>
+        <span class="text">"抱歉,暂时没有版权"</span>
+      </div>
+    </top-tip>
   </div>
 </template>
 
@@ -111,6 +120,7 @@ import {playMode} from 'common/js/config'
 import Lyric from 'lyric-parser'
 import Playlist from 'components/playlist/playlist'
 import {playerMixin, favoriteMixin} from 'common/js/mixin'
+import TopTip from 'base/top-tip/top-tip'
 const transform = prefixStyle('transform')
 const transitionDuration = prefixStyle('transitionDuration')
 export default {
@@ -131,7 +141,8 @@ export default {
     Scroll,
     ProgressBar,
     ProgressCircle,
-    Playlist
+    Playlist,
+    TopTip
   },
   computed: {
     playIcon () {
@@ -239,12 +250,13 @@ export default {
     },
     next () {
       // 防止快速点击 歌曲ready时点击才有效
-      console.log('next')
       if (!this.songReady) {
         return
       }
       if (this.playlist.length === 1) {
         this.loop()
+        // eslint-disable-next-line
+        return
       } else {
         let index = this.currentIndex + 1
         if (index === this.playlist.length) {
@@ -260,6 +272,8 @@ export default {
       }
       if (this.playlist.length === 1) {
         this.loop()
+        // eslint-disable-next-line
+        return
       } else {
         let index = this.currentIndex - 1
         if (index === -1) {
@@ -326,6 +340,10 @@ export default {
     },
     getLyric () {
       this.currentSong.getLyric().then((lyric) => {
+        // 【重要】判断当前歌的歌词 防止切换歌曲后歌词乱掉
+        if (this.currentSong.lyric !== lyric) {
+          return
+        }
         this.currentLyric = new Lyric(lyric, this.handleLyrics)
         if (this.playing) {
           this.currentLyric.play()
@@ -403,6 +421,9 @@ export default {
     showPlaylist () {
       this.$refs.playlist.show()
     },
+    showTip () {
+      this.$refs.topTip.show()
+    },
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN'
       // setPlayingState: 'SET_PLAYING_STATE',
@@ -447,10 +468,14 @@ export default {
       //   })
       // })
       this.currentSong.getURL().then((url) => {
-        setTimeout(() => {
+        clearTimeout(this.timer)
+        this.timer = setTimeout(() => {
           this.$refs.audio.play()
           this.getLyric()
         }, 1000)
+      }).catch(() => {
+        console.log('error')
+        this.showTip()
       })
     },
     playing (newPlaying) {
@@ -697,6 +722,17 @@ export default {
             font-size 32px
             left 0
             top 0
+    .tip-title
+      padding 18px 0
+      text-align center
+      font-size 0
+      .icon-ok
+        font-size: $font-size-medium
+        color $color-theme
+        margin-right 10px
+      .text
+        font-size: $font-size-medium
+        color $color-text
 @keyframes rotate
   0%
     transform: rotate(0)

@@ -66,21 +66,21 @@ export function loadRecent() {
 }
 
 export function loadLike() {
-  console.log('loadLike')
+  // console.log('loadLike')
   return storage.get(LIKE_KEY, [])
 }
 
 export function saveLike (like) {
   let likeList = storage.get(LIKE_KEY, [])
-  insertArray(likeList, like.id, (id) => {
-    return id === like.id
+  insertArray(likeList, like, (item) => {
+    return item.id === like.id
   }, LIKE_MAX_LENGTH)
   return storage.set(LIKE_KEY, likeList)
 }
 export function deleteLike(like) {
   let likeList = storage.get(LIKE_KEY, [])
-  deleteFromArray(likeList, (id) => {
-    return like.id === id
+  deleteFromArray(likeList, (item) => {
+    return like.id === item.id
   })
   return storage.set(LIKE_KEY, likeList)
 }

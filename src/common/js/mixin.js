@@ -107,9 +107,9 @@ export const searchListMixin = {
 
 export const favoriteMixin = {
   methods: {
-    favoriteCls(item) {
-      const fIndex = this.likeList.findIndex((id) => {
-        return id === item.id
+    favoriteCls(like) {
+      const fIndex = this.likeList.findIndex((item) => {
+        return like.id === item.id
       })
       return fIndex === -1 ? 'icon-not-favorite' : 'icon-favorite'
     },
