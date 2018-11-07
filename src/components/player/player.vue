@@ -99,17 +99,17 @@
     <!-- canplay当文件就绪可以开始播放时运行的脚本 -->
     <!-- play当媒介已就绪可以播放时运行的脚本 -->
     <audio ref="audio" :src="currentSong.url" @play="ready"  @error="error" @timeupdate="updateTime" @ended="end"></audio>
-    <top-tip ref="topTip">
+    <top-tip ref="topTip" :tipDelay="tipDelay">
       <div class="tip-title">
         <i class="icon-delete"></i>
-        <span class="text">"抱歉,暂时没有版权"</span>
+        <span class="text">抱歉,暂时没有版权,将为您播放下一首歌</span>
       </div>
     </top-tip>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 import Scroll from 'base/scroll/scroll'
 import animations from 'create-keyframe-animation'
 import {prefixStyle} from 'common/js/dom'
@@ -134,7 +134,8 @@ export default {
       currentLyric: null,
       currentLineNum: 0,
       currentShow: 'cd',
-      playLyric: null
+      playLyric: null,
+      tipDelay: 2000
     }
   },
   components: {
@@ -291,7 +292,14 @@ export default {
       this.saveRecentPlaylist(this.currentSong)
     },
     error () {
+      this.currentLyric.stop()
+      this.$refs.topTip.show()
+      setTimeout(() => {
+        this.deleteSong(this.currentSong)
+      }, this.tipDelay)
       this.songReady = true
+      // eslint-disable-next-line
+      return
     },
     updateTime (e) {
       this.currentTime = e.target.currentTime
@@ -383,6 +391,7 @@ export default {
         return
       }
       const left = this.currentShow === 'cd' ? 0 : -window.innerWidth
+      // right的左边相对于屏幕右侧的偏移位置 [-innerWidth, x, 0]
       const offsetWidth = Math.min(0, Math.max(-window.innerWidth, left + deltaX))
       this.touch.percent = Math.abs(offsetWidth / window.innerWidth)
       this.$refs.lyricList.$el.style[transform] = `translate3d(${offsetWidth}px, 0, 0)`
@@ -398,6 +407,7 @@ export default {
           offsetWidth = -window.innerWidth
           opacity = 0
           this.currentShow = 'lyric'
+          this.touch.percent = 1
         } else {
           offsetWidth = 0
           opacity = 1
@@ -407,6 +417,7 @@ export default {
           offsetWidth = 0
           opacity = 1
           this.currentShow = 'cd'
+          this.touch.percent = 0
         } else {
           offsetWidth = -window.innerWidth
           opacity = 0
@@ -430,7 +441,10 @@ export default {
       // setCurrentIndex: 'SET_CURRENT_INDEX',
       // setPlayMode: 'SET_PLAY_MODE',
       // setPlayList: 'SET_PLAYLIST'
-    })
+    }),
+    ...mapActions([
+      'deleteSong'
+    ])
   },
   created () {
     this.touch = {}
@@ -475,7 +489,7 @@ export default {
         }, 1000)
       }).catch(() => {
         console.log('error')
-        this.showTip()
+        // this.showTip()
       })
     },
     playing (newPlaying) {
@@ -723,10 +737,10 @@ export default {
             left 0
             top 0
     .tip-title
-      padding 18px 0
+      padding 30px 0
       text-align center
       font-size 0
-      .icon-ok
+      .icon-delete
         font-size: $font-size-medium
         color $color-theme
         margin-right 10px

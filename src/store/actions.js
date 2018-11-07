@@ -128,8 +128,8 @@ export const saveRecentPlaylist = function ({commit}, song) {
 // }
 
 export const toggleLike = function ({commit, state}, like) {
-  const fIndex = state.likeList.findIndex((id) => {
-    return id === like.id
+  const fIndex = state.likeList.findIndex((item) => {
+    return item.id === like.id
   })
   if (fIndex === -1) {
     commit(types.SET_LIKE_LIST, saveLike(like))
