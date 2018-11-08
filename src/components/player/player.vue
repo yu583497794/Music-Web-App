@@ -337,6 +337,9 @@ export default {
         this.loop()
       } else {
         this.next()
+        setTimeout(() => {
+          this.$refs.audio.play()
+        }, 2000)
       }
     },
     loop () {
@@ -352,6 +355,7 @@ export default {
         if (this.currentSong.lyric !== lyric) {
           return
         }
+        this.currentLineNum = 0
         this.currentLyric = new Lyric(lyric, this.handleLyrics)
         if (this.playing) {
           this.currentLyric.play()
@@ -451,6 +455,8 @@ export default {
   },
   watch: {
     currentSong (newSong, oldSong) {
+      // 判断是如何切换歌曲的 播放结束 还是用户切换
+      const endFlag = this.$refs.audio.ended
       // 空
       if (!newSong.id) {
         return
@@ -484,7 +490,9 @@ export default {
       this.currentSong.getURL().then((url) => {
         clearTimeout(this.timer)
         this.timer = setTimeout(() => {
-          this.$refs.audio.play()
+          if (!endFlag) {
+            this.$refs.audio.play()
+          }
           this.getLyric()
         }, 1000)
       }).catch(() => {
