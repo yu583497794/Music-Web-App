@@ -69,6 +69,12 @@ export default {
       getRecommend().then((res) => {
         if (res.code === ERR_OK) {
           this.recommends = res.data.slider
+          this.recommends.unshift({
+            id: 1,
+            linkUrl: 'http://music-active.little-fairy.club',
+            picUrl: 'http://image.little-fairy.club/birthday.png'
+          })
+          console.log(res.data.slider)
           // this.songList = res.data.songList
         }
       })

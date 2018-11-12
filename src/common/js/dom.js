@@ -1,4 +1,4 @@
-export function addClass(el, className) {
+export function addClass (el, className) {
   if (hasClass(el, className)) {
     return
   }
@@ -8,13 +8,13 @@ export function addClass(el, className) {
   el.className = newClass.join(' ')
 }
 
-export function hasClass(el, className) {
+export function hasClass (el, className) {
   // 开头或空白字符 结尾或空白字符
   let reg = new RegExp('(^|\\s)' + className + '(\\s|$)')
   return reg.test(el.className)
 }
 
-export function getData(el, name, val) {
+export function getData (el, name, val) {
   const prefix = 'data-'
   name = prefix + name
   if (val) {
